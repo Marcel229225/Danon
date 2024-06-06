@@ -1,2 +1,1 @@
-# Danon
-This project consists of the implementation of some algorithms such as bubble sort, merge sort, insertion sort or even quick sort and was carried out in partnership with @Freud05
+Give the right to python file with th command "chmod +x" and pass in parameter the file with data to sort(./301 file) to test the project
