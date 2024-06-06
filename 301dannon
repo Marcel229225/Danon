@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+
+import math
+import sys
+import time
+import csv
+
+USAGE = "Usage:\n    ./301dannon file\nDESCRIPTION\n    file   file that contains to be sorted, separated by spaces"
+
+def open_file(file):
+    i = 0
+    temp = 0
+    list_of_lists = []
+    try:
+        filename = open(file, "r")
+        line = filename.readline()
+        filename.close()
+    except IOError:
+        return []
+    for x in line.split():
+        try:
+            temp = float(x)
+        except ValueError:
+            return []
+        list_of_lists.append(temp)
+    return list_of_lists
+
+def selectionSort(array, size):
+    compteur = 0
+    temp = 0
+    for i in range(size-1):  
+        min = i         
+        for j in range(i+1, size):
+            compteur = compteur + 1
+            if array[j]<array[min]:  
+                min = j  
+        temp = array[i]
+        array[i] = array[min]
+        array[min] = temp
+
+    return compteur
+
+def bubbleSort(array, size):
+    compteur = 0
+    temp = 0
+    for m in range(size):
+        for n in range(size-m-1):
+            compteur = compteur + 1
+            if array[n] > array[n+1]:
+                temp = array[n]
+                array[n] = array[n+1]
+                array[n+1] = temp
+    return compteur
+
+def insertion(array, size):
+    compteur = 0
+    for i in range(1, size):
+        for n in range(i):
+            compteur = compteur + 1
+            if (array[n] > array[i]):
+                array.insert(n, array.pop(i))
+                break
+    return compteur
+
+def merge(array, size):
+    compteur = 0
+    if (size > 1):
+        div = size//2
+        F = array[:div]
+        S = array[div:]
+
+        compteur += merge(F, len(F))
+        compteur += merge(S, len(S))
+        i = 0
+        j = 0
+        k = 0
+        while (i < len(F) or j < len(S)):
+            if i >= len(F):
+                array[k] = S[j]
+                j += 1
+                k += 1
+                continue
+            if j >= len(S):
+                array[k] = F[i]
+                i += 1
+                k += 1
+                continue
+            if (F[i] <= S[j]):
+                compteur += 1
+                array[k] = F[i]
+                i += 1
+                k += 1
+            else:
+                compteur += 1
+                array[k] = S[j]
+                j += 1
+                k += 1
+    return compteur
+
+def quickSort(array, size):
+    pivot = 0
+    compteur = 0
+    if (size < 2):
+        return (0)
+    for n in range(1, size):
+        compteur += 1
+        if (array[n] < array[pivot]):
+            array.insert(pivot, array.pop(n))
+            pivot += 1
+    compteur += quickSort(array[:pivot], pivot)
+    compteur += quickSort(array[pivot + 1:], len(array) - pivot  - 1)
+
+    return compteur  
+
+if __name__ == "__main__":
+    if (len(sys.argv) == 2 and sys.argv[1] == "-h"):
+        print(USAGE)
+        sys.exit(0)
+    if len(sys.argv) < 2 or len(sys.argv) > 2:
+        sys.exit(84)
+
+    data = open_file(sys.argv[1])
+    size = len(data)
+    
+    if size == 0:
+        sys.exit(84)
+    
+    data2 = open_file(sys.argv[1])
+    data3 = open_file(sys.argv[1])
+    data4 = open_file(sys.argv[1])
+    data5 = open_file(sys.argv[1])
+
+    ans = selectionSort(data, size)
+    ans2 = bubbleSort(data2, size)
+    ans3 = insertion(data3, size)
+    ans4 = merge(data4, size)
+    ans5 = quickSort(data5, size)
+
+    if (size == 1):
+        print (size, "element")
+    else:
+        print (size, "elements")
+
+    print("Selection sort:", ans, "comparisons")
+    print("Insertion sort:", ans3, "comparisons")
+    print("Bubble sort:", ans2, "comparisons")
+    print("Quicksort:", ans5, "comparisons")
+    print("Merge sort:", ans4, "comparisons")
